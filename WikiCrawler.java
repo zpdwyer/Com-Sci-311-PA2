@@ -9,6 +9,7 @@ package PA2;
 //  (i.e., you may include java.util.ArrayList etc. here, but not junit, apache commons, google guava, etc.)
 
 import java.io.BufferedReader;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -62,10 +63,6 @@ public class WikiCrawler
 					linksList.add(link); 
 				}
 			}
-			if(!topics.isEmpty())
-			{
-				
-			}
 		}
 		return linksList; 
 		}
@@ -102,19 +99,19 @@ public class WikiCrawler
 	
 	private ArrayList<Edge> traverseBFS(String seed_url) throws InterruptedException, IOException{
 		{
+			int topicsCount =0; 
 			Queue<String> q = new LinkedList<String>();
 			ArrayList<String> visited = new ArrayList<String>();
 			ArrayList<String> extractedLinks = new ArrayList<String>();
 			ArrayList<Edge> edgeList = new ArrayList<Edge>();
-
+			
 			InputStream inputStream = null;
 			BufferedReader bufferReader = null;
 			StringBuffer returned = null;
 			
 			q.add(seed_url);
 			visited.add(seed_url);
-			
-			int counter = 1;
+	
 			
 			while(!q.isEmpty()){
 				String curPage = q.poll();
@@ -124,18 +121,23 @@ public class WikiCrawler
 					inputStream = new URL(BASE_URL + curPage).openStream();
 				    bufferReader = new BufferedReader(new InputStreamReader(inputStream));
 				    returned = new StringBuffer();
-				    counter++;
 				} catch (Exception e) {
 			      e.printStackTrace();
 				}
-						
-				if(counter % 100 == 0){
-					Thread.sleep(3000);
-				}
+				
 			    String line;
 			    while ((line = bufferReader.readLine()) != null) {
 			    	if(line.contains("<p>") || line.contains("<P>")){
-			    		linkParse = true;
+			    		if(topics.isEmpty()){
+			    			linkParse = true; 
+			    		}
+			    		else{ 
+			    			for(int i=0; i < topics.size();i++){
+			    				if(line.contains(topics.get(i))){
+			    					linkParse = true;
+			    				}
+			    			}
+			    		}
 			    	}
 			    	if(linkParse){
 			    		returned.append(line);
@@ -163,7 +165,7 @@ public class WikiCrawler
 		}
 	}
 	
-	class Edge {
+	private class Edge {
 		String beginning;
 		String finish;
 		
