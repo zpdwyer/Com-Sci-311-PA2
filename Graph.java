@@ -44,6 +44,10 @@ public class Graph {
 		return numVertices;
 	}
 	
+	public String getVertex(int index) {
+		return valueList.get(index);
+	}
+	
 	public boolean containsVertex(String value) {
 		return valueList.contains(value);
 	}
