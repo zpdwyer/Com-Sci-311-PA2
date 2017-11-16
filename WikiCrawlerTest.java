@@ -60,9 +60,6 @@ public class WikiCrawlerTest {
 		String BASE_URL = "https://en.wikipedia.org";
 //		WikiCrawler crawler = new WikiCrawler("/wiki/Fallout_4", 40, T, "out.txt"); // 261
 		WikiCrawler crawler = new WikiCrawler("/wiki/Complexity theory", 20, new ArrayList<String>(), "out.txt");
-
-		
-		ArrayList<Edge> links = null;
 		crawler.crawl();
 	}
 }

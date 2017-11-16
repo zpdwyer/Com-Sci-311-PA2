@@ -47,8 +47,8 @@ public class WikiCrawler
 
 		traverseBFS(seedUrl);
 		String fileContent = "";
-		for(int i=0; i<graph.edgeList.size(); i++){
-			fileContent = fileContent + graph.edgeList.get(i).toString() + "\r"; 
+		for(int i=0; i<graph.getNumEdges(); i++){
+			fileContent = fileContent + graph.getEdge(i).toString() + "\r"; 
 		}
 		BufferedWriter bWriter = null;
 		FileWriter fWriter = null;
@@ -96,26 +96,26 @@ public class WikiCrawler
 					// trim away the href="_____"
 					String link = doc.substring(matcher.start()+6, matcher.end()-1);
 					boolean linkContainsAllTopics = false;;
-					if(graph.valueList.size() < max) {
+					if(graph.getNumVertices() < max) {
 						linkContainsAllTopics = hasTopics(link, doc);
 					}
 					if (linkContainsAllTopics) {
 						if (!link.contains("#") && !link.contains(":") && !link.equals(curPage)) {
 							// check if link is valid/ not discovered
-							if (!graph.valueList.contains(link)  &&  graph.valueList.size() < max) {
-								graph.valueList.add(link);
+							if (!graph.containsVertex(link)  &&  graph.getNumVertices() < max) {
+								graph.addVertex(link);
 								q.add(link);
 							}
 							// check if edge already exists
-							if (!graph.edgeList.contains(new Edge(curPage,link)) && graph.valueList.contains(link)) {
-								graph.edgeList.add(new Edge(curPage, link));
+							if (!graph.containsEdge(new Edge(curPage,link)) && graph.containsVertex(link)) {
+								graph.addEdge(new Edge(curPage, link));
 							}
 						} 
 					}
 					else {
 						// check if edge already exists
-						if (!graph.edgeList.contains(new Edge(curPage,link)) && graph.valueList.contains(link) && !link.equals(curPage)) {
-							graph.edgeList.add(new Edge(curPage, link));
+						if (!graph.containsEdge(new Edge(curPage,link)) && graph.containsVertex(link) && !link.equals(curPage)) {
+							graph.addEdge(new Edge(curPage, link));
 						}
 					}
 				}
