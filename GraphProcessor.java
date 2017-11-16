@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 public class GraphProcessor
 {
-	// other member fields and methods
+	private Graph graph;
 
 	// NOTE: graphData should be an absolute file path
 	public GraphProcessor(String graphData)
 	{
-		// implementation
+		graph = new Graph(graphData);
 	}
 
 	public int outDegree(String v)

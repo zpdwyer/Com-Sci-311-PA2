@@ -62,4 +62,11 @@ public class WikiCrawlerTest {
 		WikiCrawler crawler = new WikiCrawler("/wiki/Complexity theory", 20, new ArrayList<String>(), "out.txt");
 		crawler.crawl();
 	}
+	
+	@Test
+	public void TestGraphFromFile() {
+		Graph g = new Graph("/Users/KruegerComp/eclipse-workspace/CS311_PA2/testdata.txt");
+		assertEquals("Graph has 20 vertices", 20, g.getNumVertices());
+		assertEquals("Graph has 112 edges", 112, g.getNumEdges());
+	}
 }
